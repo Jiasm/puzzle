@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="utf-8">
+    <script type="text/javascript" src="jQuery.js"></script>
+    <style type="text/css">
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    #puzzle-container {
+        position: absolute;
+        background-color: #C0C0C0;
+        width: 500px;
+        height: 500px;
+    }
+    
+    .puzzle-item {
+        transition: transform .5s;
+        -webkit-transition: -webkit-transform .5s;
+        -moz-transition: -moz-transform .5s;
+        -ms-transition: -ms-transform .5s;
+        -o-transition: -o-transform .5s;
+    }
+    </style>
+</head>
+
+<body>
+    <button id="start">开始</button>
+    <button id="pause">暂停</button>
+    <button id="proceed">继续</button>
+    <button id="over">结束</button>
+    <button id="refresh">刷新</button>
+    <button id="restart">重玩</button>
+    <div>已走步数：<span id="step"></span></div>
+    <div>耗时：<span id="timing"></span></div>
+    <div id="puzzle-container"></div>
+    <script type="text/javascript" src="Puzzle.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        var count = 3;
+        var timing = function(time) {
+            $("#timing").html(time++);
+        }
+        var counts = function (count) {
+            $("#step").html(count);
+        }
+        var puzzle = new Puzzle("#puzzle-container").init({
+            'imgSrc': "shieldLogo.jpg",
+            'size': 50,
+            'record': true,
+            'autoplay': true,
+            'timing': true,
+            'gap': 0
+        }).start(function() {
+            alert('game begin');
+        }).success(function() {
+            alert('game success');
+        }).over(function() {
+            alert('game over');
+        }).pause(function() {
+            alert('game pause');
+        }).proceed(function() {
+            alert('game proceed');
+        }).step(counts).timer(timing);
+
+        $("#start").click(function() {
+            puzzle.gameStart();
+        })
+        $("#pause").click(function() {
+            puzzle.gamePause();
+        })
+        $("#proceed").click(function() {
+            puzzle.gameProceed();
+        })
+        $("#over").click(function() {
+            puzzle.gameOver();
+        })
+        $("#refresh").click(function() {
+            puzzle.update();
+        })
+        $("#restart").click(function() {
+            counts(0);
+            timing(0);
+            puzzle.restart();
+        })
+    })
+    </script>
+</body>
+
+</html>
